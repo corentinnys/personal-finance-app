@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import Overvieuw from "./overvieuw.jsx";
 import "./navigation.css"
 import Pots from "./pots.jsx";
+import Transaction from "./Transaction.jsx";
 function Navigation() {
     const [items, setItems] = useState([]);
 
@@ -36,7 +37,7 @@ function Navigation() {
                 <div className="col-8 h-100 overflow-auto">
                     <Routes>
                         <Route path="/" element={<Overvieuw />} />
-                        <Route path="/transactions" />
+                        <Route path="/transactions" element={<Transaction data={items.transactions}/>}/>
                         <Route path="/budgets" />
                         <Route path="/pots" element={<Pots data={items.pots} />} />
                         <Route path="/bill" />
