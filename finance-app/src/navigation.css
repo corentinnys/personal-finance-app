@@ -1,0 +1,49 @@
+.nav-link-custom {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+
+
+li:hover .nav-link-custom {
+    color: black;
+}
+
+li {
+    position: relative;
+    padding: 15px 30px;
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: #f2f2f2;
+    border-radius: 10px;
+    transition: 0.3s;
+    z-index: 0;
+}
+
+li:hover::before {
+    width: 100%;
+}
+
+.nav-link-custom {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+li:hover .nav-link-custom {
+    color: black;
+}

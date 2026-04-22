@@ -1,0 +1,16 @@
+html, body, #root {
+    height: 100%;
+
+}
+
+.bulles {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+.btn-custom{
+    background-color: #000000;
+    color: white;
+    padding: 10px;
+}
