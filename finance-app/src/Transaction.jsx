@@ -4,32 +4,121 @@ function Transaction({ data = [] }) {
     const itemsPerPage = 10;
 
     const [currentPage, setCurrentPage] = useState(1);
-
+    const [search, setSearch] = useState("");
+    const [sortType, setSortType] = useState("latest");
+    const [category, setCategory] = useState("");
+    // Pagination
     const lastIndex = currentPage * itemsPerPage;
     const firstIndex = lastIndex - itemsPerPage;
 
-    //const currentItems = data.slice(firstIndex, lastIndex);
-    const [search, setSearch] = useState("");
+    // Search
+    const filteredItems = data.filter((item) => {
+        const matchesSearch = item.name
+            .toLowerCase()
+            .includes(search.toLowerCase());
 
-    const filteredItems = data.filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
-    );
+        const matchesCategory =
+            category === "" || item.category === category;
 
+        return matchesSearch && matchesCategory;
+    });
 
-    const currentItems = filteredItems.slice(firstIndex, lastIndex);
+    // Sort
+    const sortedItems = [...filteredItems].sort((a, b) => {
+        switch (sortType) {
+            case "latest":
+                return new Date(b.date) - new Date(a.date);
 
-    const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+            case "oldest":
+                return new Date(a.date) - new Date(b.date);
+
+            case "az":
+                return a.name.localeCompare(b.name);
+
+            case "za":
+                return b.name.localeCompare(a.name);
+
+            case "highest":
+                return b.amount - a.amount;
+
+            case "lowest":
+                return a.amount - b.amount;
+
+            default:
+                return 0;
+        }
+    });
+
+    // Current page items
+    const currentItems = sortedItems.slice(firstIndex, lastIndex);
+
+    const totalPages = Math.ceil(sortedItems.length / itemsPerPage);
 
     const handleChange = (value) => {
         setSearch(value);
         setCurrentPage(1);
     };
+
+    const handleSort = (value) => {
+        setSortType(value);
+        setCurrentPage(1);
+    };
+    const handleTransaction = (value) => {
+        setCategory(value);
+        setCurrentPage(1);
+    };
+
     return (
         <div>
-            <h1>transaction</h1>
-            <input type="text" placeholder="Search transaction"
-                   onChange={(e) => handleChange(e.target.value)}
+            <h1>Transaction</h1>
+
+            <input
+                type="text"
+                placeholder="Search transaction"
+                className="form-control mb-3"
+                onChange={(e) => handleChange(e.target.value)}
             />
+
+            <div className="mb-3">
+                <span className="me-2">Sort by</span>
+
+                <select
+                    className="form-select"
+                    onChange={(e) => handleSort(e.target.value)}
+                >
+                    <option value="">All</option>
+                    <option value="latest">Latest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="az">A to Z</option>
+                    <option value="za">Z to A</option>
+                    <option value="highest">Highest</option>
+                    <option value="lowest">Lowest</option>
+                </select>
+            </div>
+
+
+            <div className="mb-3">
+                <span className="me-2">Category</span>
+
+                <select
+                    className="form-select"
+                    onChange={(e) => handleTransaction(e.target.value)}
+                >
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Dining out">Dining out</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Personnal care">Personnal care</option>
+                    <option value="Education">Education</option>
+                    <option value="Lifestyle">Lifestyle</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="General">General</option>
+
+                </select>
+            </div>
+
+
             <table className="table">
                 <thead>
                 <tr>
@@ -54,17 +143,21 @@ function Transaction({ data = [] }) {
                                     objectFit: "cover",
                                 }}
                             />
+
                             {item.name}
                         </td>
 
                         <td>{item.category}</td>
 
                         <td>
-                            {new Date(item.date).toLocaleDateString("fr-FR", {
-                                day: "numeric",
-                                month: "long",
-                                year: "numeric",
-                            })}
+                            {new Date(item.date).toLocaleDateString(
+                                "fr-FR",
+                                {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
+                                }
+                            )}
                         </td>
 
                         <td>{item.amount}</td>
