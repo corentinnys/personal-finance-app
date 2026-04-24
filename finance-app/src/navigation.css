@@ -6,11 +6,11 @@
 
 
 
-li:hover .nav-link-custom {
+nav li:hover .nav-link-custom {
     color: black;
 }
 
-li {
+nav li {
     position: relative;
     padding: 15px 30px;
     width: 100%;
@@ -19,7 +19,7 @@ li {
     transition: 0.2s;
 }
 
-li::before {
+nav li::before {
     content: "";
     position: absolute;
     left: 0;
@@ -32,7 +32,7 @@ li::before {
     z-index: 0;
 }
 
-li:hover::before {
+nav li:hover::before {
     width: 100%;
 }
 
@@ -44,6 +44,6 @@ li:hover::before {
     display: block;
 }
 
-li:hover .nav-link-custom {
+nav li:hover .nav-link-custom {
     color: black;
 }
